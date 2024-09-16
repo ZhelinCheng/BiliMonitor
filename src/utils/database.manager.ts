@@ -2,7 +2,7 @@
  * @Author       : 程哲林
  * @Date         : 2024-09-16 21:33:05
  * @LastEditors  : 程哲林
- * @LastEditTime : 2024-09-17 00:04:32
+ * @LastEditTime : 2024-09-17 00:07:39
  * @FilePath     : /BiliMonitor/src/utils/database.manager.ts
  * @Description  : 未添加文件描述
  */
@@ -59,33 +59,38 @@ export class DatabaseManager {
    * @returns 返回包含账户信息的字符串
    */
   static async getUserAccount() {
-    const nowTime = Date.now();
+    try {
+      const nowTime = Date.now();
 
-    if (this.memoCookies.expired > nowTime) {
-      return this.memoCookies.value;
-    }
-
-    const account = await this.configRepository.find({
-      where: {
-        type: 'account',
-      },
-      select: ['value', 'label'],
-    });
-
-    let ck = '';
-    account.forEach((item) => {
-      if (item.label !== 'ac_time_value') {
-        const key = kv[item.label] || item.label;
-        ck += `${key}=${item.value};`;
+      if (this.memoCookies.expired > nowTime) {
+        return this.memoCookies.value;
       }
-    });
 
-    this.memoCookies = {
-      value: ck,
-      expired: nowTime + 10 * 60 * 1000,
-    };
+      const account = await this.configRepository.find({
+        where: {
+          type: 'account',
+        },
+        select: ['value', 'label'],
+      });
 
-    return ck;
+      let ck = '';
+      account.forEach((item) => {
+        if (item.label !== 'ac_time_value') {
+          const key = kv[item.label] || item.label;
+          ck += `${key}=${item.value};`;
+        }
+      });
+
+      this.memoCookies = {
+        value: ck,
+        expired: nowTime + 10 * 60 * 1000,
+      };
+
+      return ck;
+    } catch (e) {
+      console.error(e);
+      return '';
+    }
   }
 
   static async updateSystemNotify(
