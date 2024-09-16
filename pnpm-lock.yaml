@@ -26,6 +26,9 @@ dependencies:
   axios:
     specifier: ^1.7.7
     version: 1.7.7
+  qs:
+    specifier: ^6.13.0
+    version: 6.13.0
   reflect-metadata:
     specifier: ^0.2.2
     version: 0.2.2
@@ -58,6 +61,9 @@ devDependencies:
   '@types/node':
     specifier: ^20.16.5
     version: 20.16.5
+  '@types/qs':
+    specifier: ^6.9.16
+    version: 6.9.16
   '@types/supertest':
     specifier: ^6.0.2
     version: 6.0.2
@@ -1219,7 +1225,7 @@ packages:
     resolution: {integrity: sha512-y6W03tvrACO72aijJ5uF02FRq5cgDR9lUxddQ8vyF+GvmjJQqbzDcJngEjURc+ZsG31VI3hODNZJ2URj86pzmg==}
     dependencies:
       '@types/node': 20.16.5
-      '@types/qs': 6.9.15
+      '@types/qs': 6.9.16
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
     dev: true
@@ -1229,7 +1235,7 @@ packages:
     dependencies:
       '@types/body-parser': 1.19.5
       '@types/express-serve-static-core': 4.19.5
-      '@types/qs': 6.9.15
+      '@types/qs': 6.9.16
       '@types/serve-static': 1.15.7
     dev: true
 
@@ -1287,8 +1293,8 @@ packages:
     dependencies:
       undici-types: 6.19.8
 
-  /@types/qs@6.9.15:
-    resolution: {integrity: sha512-uXHQKES6DQKKCLh441Xv/dwxOq1TVS3JPUMlEqoEglvlhR6Mxnlew/Xq/LRVHpLyk7iK3zODe1qYHIMltO7XGg==}
+  /@types/qs@6.9.16:
+    resolution: {integrity: sha512-7i+zxXdPD0T4cKDuxCUXJ4wHcsJLwENa6Z3dCu8cfCK743OGy5Nu1RmAGqDPsoTDINVEcdXKRvR/zre+P2Ku1A==}
     dev: true
 
   /@types/range-parser@1.2.7:
@@ -4900,7 +4906,6 @@ packages:
     engines: {node: '>=0.6'}
     dependencies:
       side-channel: 1.0.6
-    dev: true
 
   /queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}

@@ -2,7 +2,7 @@
  * @Author       : 程哲林
  * @Date         : 2024-09-09 19:42:27
  * @LastEditors  : 程哲林
- * @LastEditTime : 2024-09-16 23:13:43
+ * @LastEditTime : 2024-09-17 00:06:07
  * @FilePath     : /BiliMonitor/src/app.module.ts
  * @Description  : 未添加文件描述
  */
@@ -13,7 +13,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
 // import { Config, Task, Days, Account } from './entity';
 import { WatchModule } from './modules/watch/watch.module';
-import { ConfigModule } from './modules/config/config.module';
 import * as nestCfg from '@nestjs/config';
 import * as path from 'path';
 import { DataSource } from 'typeorm';
@@ -38,7 +37,6 @@ console.log(path.resolve(__dirname, './entity/**.{.ts,.js}'));
     }),
     TypeOrmModule.forFeature([ConfigEntity]),
     ScheduleModule.forRoot(),
-    ConfigModule,
     WatchModule,
   ],
   controllers: [AppController],

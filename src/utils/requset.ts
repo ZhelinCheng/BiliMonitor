@@ -5,8 +5,6 @@ import axios, {
   AxiosPromise,
 } from 'axios';
 import { DatabaseManager } from './database.manager';
-import { ConfigEntity } from 'src/entity';
-import { DataSource } from 'typeorm';
 // import { ConfigService } from './database.manager';
 // import { State } from 'src/app.state';
 
@@ -17,12 +15,13 @@ axios.defaults.headers.common = {
   referer: 'https://t.bilibili.com/',
   Connection: 'keep-alive',
   'User-Agent':
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
 };
 
 axios.interceptors.request.use(
-  (config) => {
-    config.headers.cookie = '';
+  async (config) => {
+    const cookies = await DatabaseManager.getUserAccount();
+    config.headers.cookie = cookies;
     config.maxContentLength = Infinity;
     config.maxBodyLength = Infinity;
     return config;
@@ -32,8 +31,6 @@ axios.interceptors.request.use(
   },
 );
 
-let dataSource: DataSource | null = null;
-
 axios.interceptors.response.use(
   async (response: AxiosResponse) => {
     const { status } = response;
@@ -41,18 +38,16 @@ axios.interceptors.response.use(
       if (typeof response.data.code === 'number' && response.data.code !== 0) {
         console.error('登录过期，请刷新登录信息');
 
-        dataSource = dataSource || DatabaseManager.getDataSource();
-        const cfgRepository = dataSource.getRepository(ConfigEntity);
-
-        /* cfgRepository.update(
+        const cfgRepository = DatabaseManager.getConfigRepository();
+        cfgRepository.update(
           {
-            id: 1,
+            type: 'system',
           },
           {
-            value: 'false',
-            type: 'boolean',
+            value: 'error|登录过期，请更新登录信息',
+            type: 'notify',
           },
-        ); */
+        );
       }
 
       return Promise.resolve(response);
@@ -65,6 +60,15 @@ axios.interceptors.response.use(
   },
 );
 
-export const rq = function <T>(config: AxiosRequestConfig): AxiosPromise<T> {
-  return axios(config) as AxiosPromise<T>;
+export const rq = async function <T>(
+  config: AxiosRequestConfig,
+): Promise<RqResponseType<T>> {
+  const res = await (axios(config) as AxiosPromise<RqResponseType<T>>);
+  if (res.status === 200) {
+    return res.data;
+  }
+
+  return Promise.reject(res);
 };
+
+export default axios;

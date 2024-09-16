@@ -43,6 +43,12 @@ const defaultConfig: Omit<ConfigEntity, 'id'>[] = [
     label: 'video_quality',
     value: 'max',
   },
+  {
+    type: 'system',
+    // 通知信息
+    label: 'notify',
+    value: '',
+  },
 ];
 
 export default defaultConfig;

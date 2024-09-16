@@ -2,7 +2,7 @@
  * @Author       : 程哲林
  * @Date         : 2024-09-15 15:01:34
  * @LastEditors  : 程哲林
- * @LastEditTime : 2024-09-16 23:15:03
+ * @LastEditTime : 2024-09-17 00:06:32
  * @FilePath     : /BiliMonitor/src/modules/watch/watch.service.ts
  * @Description  : 未添加文件描述
  */
@@ -36,11 +36,11 @@ export class WatchService {
     console.log(res);
     this.logger.debug('Called when the current second is 59'); */
 
-    const res = await rq({
+    const res = await rq<any>({
       method: 'get',
-      url: 'https://api.bilibili.com/x/v3/fav/resource/ids?media_id=11212',
+      url: 'https://api.bilibili.com/x/v3/fav/resource/ids?media_id=9999',
     });
 
-    console.log(1111, res.data);
+    console.log(1111, res.code);
   }
 }
